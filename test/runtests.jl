@@ -6,8 +6,7 @@ module TestFieldDocTables
     """
     This type tests if FIELDMETADATA is printed as a markdown table.
 
-    $(FIELDMETADATA((:Description, :Default, :Limits), (description, default, limits), 
-                    tableformat=PrettyTableFormat(markdown), fenced=false))
+    $(FIELDMETADATA((:Description, :Default, :Limits), (description, default, limits)))
     """
     @description @limits @default mutable struct TestStruct
        " A field doc"
