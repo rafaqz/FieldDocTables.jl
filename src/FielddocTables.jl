@@ -5,18 +5,18 @@ import DocStringExtensions: Abbreviation, format
 
 export FielddocTable
 
-struct FielddocTable{L,T,F} <: Abbreviation 
+struct FielddocTable{L,T,TR,F} <: Abbreviation 
     labels::L
     functions::T
+    truncation::TR
     tableformat::F
     fenced::Bool
 end
 
-FielddocTable(labels::L, functions::T; tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
-    FielddocTable{L,T,typeof(tableformat)}(labels, functions, tableformat, fenced)
+FielddocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
+    FielddocTable{L,T,typeof(truncation), typeof(tableformat)}(labels, functions, truncation, tableformat, fenced)
 
 function format(doctable::FielddocTable, buf, doc)
-    println("Nooooooooooooooooooooooooooooooooooooooooow?????????")
     local docs = get(doc.data, :fields, Dict())
     local binding = doc.data[:binding]
     local object = Docs.resolve(binding)
@@ -26,11 +26,12 @@ function format(doctable::FielddocTable, buf, doc)
 
     if !isempty(fields)
 
-
         # Fieldnames and passed in functions
         colnames = [:Field, doctable.labels...]
-        data = hcat([fields...], ([safestring.(f(object))...] for f in doctable.functions)...)
+        funcdata = ([safestring.(f(object), doctable.truncation[i])...] for (i, f) in enumerate(doctable.functions))
+        data = hcat([fields...], funcdata...)
 
+        # Only add a fielddocs column if there are fielddocs
         fielddocs = []
         for field in fields
             if haskey(docs, field) && isa(docs[field], AbstractString)
@@ -53,10 +54,23 @@ function format(doctable::FielddocTable, buf, doc)
         doctable.fenced && println(buf, "```")
         println(buf)
     end
-    return nothing
 end
 
-safestring(::Nothing) = "nothing"
-safestring(s) = string(s)
+safestring(::Nothing, n) = "nothing"
+safestring(s, n) = truncate_utf8(string(s), n)
+
+# Is there simpler way to do this?
+truncate_utf8(s, n) = begin
+    eo = lastindex(s)
+    neo = 0
+    for i = 1:n 
+      if neo < eo 
+          neo = nextind(s, neo) 
+      else 
+          break 
+      end
+    end
+    SubString(s, 1, neo)
+end
 
 end # module
