@@ -11,7 +11,7 @@ But the main reason to use this package is to add additional columns to the
 field documentation, such as from [FieldMetadata.jl](https://github.com/rafaqz/FieldMetadata.jl).
 
 Additional column labels and methods can be passed to the field doc
-abbreviation FIELDDOCTABLE. The method must accept a type and return a
+constructor `FielddocTable()`. The method must accept a type and return a
 vector or tuple of the same length as the number of fields in the type.
 
 ```julia
@@ -19,10 +19,13 @@ using FielddocTables, FieldMetadata
 
 import FieldMetadata: @default, default, @limits, limits, @description, @redescription, description
 
+# Declare the doc abbreviation for your doc table
+const FIELDDOCTABLE = FielddocTable((:Description, :Default, :Limits), (description, default, limits))
+
 """
 The metadata for this type is printed as a markdown table:
 
-$(FIELDDOCTABLE((:Description, :Default, :Limits), (description, default, limits)))
+$(FIELDDOCTABLE)
 """
 @description @limits @default mutable struct TestStruct
    a::Int     | 2   | (1, 10)     | "an Int"
@@ -38,4 +41,19 @@ Field Description Default      Limits
 ––––– ––––––––––– ––––––– –––––––––––
     a      an Int       2     (1, 10)
     b     a Float     4.0 (2.0, 20.0)
+```
+
+You could additionally set the truncation length for each field, and use another
+table format. Table formats besides markdown should be fenced. 
+
+Note formats besides markdown will not translate to good html tables in browser documentation.
+
+```julia
+const FIELDDOCTABLE = FielddocTable((:Description, :Default, :Limits), 
+                                   (description, default, limits);
+                                   truncation=(100,40,70),
+                                   tableformat=PrettyTableFormat(unicode_rounded),
+                                   fenced=true)
+
+
 ```
