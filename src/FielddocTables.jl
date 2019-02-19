@@ -3,7 +3,7 @@ module FielddocTables
 using DocStringExtensions, PrettyTables
 import DocStringExtensions: Abbreviation, format
 
-export FIELDMETADATA
+export FIELDDOCTABLE
 
 
 struct TypeFieldMetadata{L,T,F} <: Abbreviation 
@@ -16,7 +16,7 @@ end
 TypeFieldMetadata(labels::L, functions::T; tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
     TypeFieldMetadata{L,T,typeof(tableformat)}(labels, functions, tableformat, fenced)
 
-const FIELDMETADATA = TypeFieldMetadata
+const FIELDDOCTABLE = TypeFieldMetadata
 
 function format(metaformat::TypeFieldMetadata, buf, doc)
     local docs = get(doc.data, :fields, Dict())
