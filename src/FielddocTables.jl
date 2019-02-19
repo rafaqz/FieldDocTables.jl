@@ -32,7 +32,7 @@ function format(metaformat::TypeFieldMetadata, buf, doc)
 
         # Fieldnames and passed in functions
         colnames = [:Field, metaformat.labels...]
-        data = hcat([fields...], ([f(object)...] for f in metaformat.functions)...)
+        data = hcat([fields...], ([string.(f(object))...] for f in metaformat.functions)...)
 
         fielddocs = []
         for field in fields
