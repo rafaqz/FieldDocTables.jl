@@ -4,7 +4,7 @@
 [![Coverage Status](https://coveralls.io/repos/rafaqz/FielddocTables.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/FielddocTables.jl?branch=master)
 [![codecov.io](http://codecov.io/github/rafaqz/FielddocTables.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/FielddocTables.jl?branch=master)
 
-FielddocTables uses PrettyTables to print field names and field docs in a table in the
+FielddocTables uses DocStringExtensions and PrettyTables to print field names and field docs in a table in the
 docs for a type (defaults to unfenced markdown).
 
 But the main reason to use this package is to add additional columns to the
