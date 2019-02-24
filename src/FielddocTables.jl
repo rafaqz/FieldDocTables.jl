@@ -5,7 +5,7 @@ import DocStringExtensions: Abbreviation, format
 
 export FielddocTable
 
-struct FielddocTable{L,T,TR,F} <: Abbreviation 
+struct FielddocTable{L,T,TR,F} <: Abbreviation
     labels::L
     functions::T
     truncation::TR
@@ -13,8 +13,13 @@ struct FielddocTable{L,T,TR,F} <: Abbreviation
     fenced::Bool
 end
 
-FielddocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
-    FielddocTable{L,T,typeof(truncation), typeof(tableformat)}(labels, functions, truncation, tableformat, fenced)
+FielddocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), 
+              tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
+    FielddocTable{L,T,typeof(truncation), typeof(tableformat)
+                 }(labels, functions, truncation, tableformat, fenced)
+
+FielddocTable(nt::NamedTuple; kwargs...) = FielddocTable(keys(nt), (nt...,); kwargs...)
+
 
 function format(doctable::FielddocTable, buf, doc)
     local docs = get(doc.data, :fields, Dict())
@@ -63,11 +68,11 @@ safestring(s, n) = truncate_utf8(string(s), n)
 truncate_utf8(s, n) = begin
     eo = lastindex(s)
     neo = 0
-    for i = 1:n 
-      if neo < eo 
-          neo = nextind(s, neo) 
-      else 
-          break 
+    for i = 1:n
+      if neo < eo
+          neo = nextind(s, neo)
+      else
+          break
       end
     end
     SubString(s, 1, neo)

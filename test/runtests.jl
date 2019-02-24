@@ -4,7 +4,7 @@ using FielddocTables, FieldMetadata, PrettyTables, Test, Markdown
 
 import FieldMetadata: @default, default, @limits, limits, @description, @redescription, description
 
-const FIELDDOCTABLE = FielddocTable((:Description, :Default, :Limits), (description, default, limits))
+const FIELDDOCTABLE = FielddocTable((Description=description, Default=default, Limits=limits))
 
 """
 This type tests if FIELDMETADATA is printed as a markdown table.

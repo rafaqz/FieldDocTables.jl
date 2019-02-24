@@ -21,7 +21,7 @@ using FielddocTables, FieldMetadata
 import FieldMetadata: @default, default, @limits, limits, @description, @redescription, description
 
 # Declare the doc abbreviation for your doc table
-const FIELDDOCTABLE = FielddocTable((:Description, :Default, :Limits), (description, default, limits))
+const FIELDDOCTABLE = FielddocTable((Description=description, Default=default, Limits=limits))
 
 """
 The metadata for this type is printed as a markdown table:
