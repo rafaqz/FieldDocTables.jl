@@ -1,7 +1,10 @@
-name = "FielddocTables"
+name = "FieldDocTables"
 uuid = "a5d692f0-33f0-11e9-293e-eb83c8d6177d"
 authors = ["Rafael Schouten <rafaelschouten@gmail.com>"]
 version = "0.1.0"
+
+[compat]
+julia = "1"
 
 [deps]
 DocStringExtensions = "ffbed154-4ef7-542d-bbb7-c09d3a79fcae"

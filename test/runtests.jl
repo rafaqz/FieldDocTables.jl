@@ -1,17 +1,17 @@
 module TestFieldDocTables
 
-using FielddocTables, FieldMetadata, PrettyTables, Test, Markdown
+using FieldDocTables, FieldMetadata, PrettyTables, Test, Markdown
 
-import FieldMetadata: @default, default, @limits, limits, @description, @redescription, description
+import FieldMetadata: @default, default, @bounds, bounds, @description, description
 
-const FIELDDOCTABLE = FielddocTable((Description=description, Default=default, Limits=limits))
+const FIELDDOCTABLE = FieldDocTable((Description=description, Default=default, Bounds=bounds))
 
 """
 This type tests if FIELDMETADATA is printed as a markdown table.
 
 $(FIELDDOCTABLE)
 """
-@description @limits @default mutable struct TestStruct
+@description @bounds @default mutable struct TestStruct
    " A field doc"
    a::Int     | 2   | (1, 10)     | "an Int"
    b::Float64 | 4.0 | (2.0, 20.0) | "a Float"

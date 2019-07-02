@@ -1,11 +1,11 @@
-module FielddocTables
+module FieldDocTables
 
 using DocStringExtensions, PrettyTables
 import DocStringExtensions: Abbreviation, format
 
-export FielddocTable
+export FieldDocTable
 
-struct FielddocTable{L,T,TR,F} <: Abbreviation
+struct FieldDocTable{L,T,TR,F} <: Abbreviation
     labels::L
     functions::T
     truncation::TR
@@ -13,15 +13,15 @@ struct FielddocTable{L,T,TR,F} <: Abbreviation
     fenced::Bool
 end
 
-FielddocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), 
+FieldDocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), 
               tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
-    FielddocTable{L,T,typeof(truncation), typeof(tableformat)
+    FieldDocTable{L,T,typeof(truncation), typeof(tableformat)
                  }(labels, functions, truncation, tableformat, fenced)
 
-FielddocTable(nt::NamedTuple; kwargs...) = FielddocTable(keys(nt), (nt...,); kwargs...)
+FieldDocTable(nt::NamedTuple; kwargs...) = FieldDocTable(keys(nt), (nt...,); kwargs...)
 
 
-function format(doctable::FielddocTable, buf, doc)
+function format(doctable::FieldDocTable, buf, doc)
     local docs = get(doc.data, :fields, Dict())
     local binding = doc.data[:binding]
     local object = Docs.resolve(binding)
