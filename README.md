@@ -10,9 +10,7 @@ docs in a table in the docs for a type (defaults to unfenced markdown).
 But the main reason to use this package is to add additional columns to the
 field documentation, such as from [FieldMetadata.jl](https://github.com/rafaqz/FieldMetadata.jl).
 
-Additional column labels and methods can be passed to the field doc
-constructor `FieldDocTable()`. The method must accept a type and return a
-vector or tuple of the same length as the number of fields in the type.
+
 
 ```julia
 using FieldDocTables, FieldMetadata
@@ -55,3 +53,10 @@ const FIELDDOCTABLE = FieldDocTable((:Description=description, :Default=default,
 ```
 
 Note that formats besides markdown will not translate to good html tables in browser documentation.
+
+Custom functions can also be passed to the field doc constructor `FieldDocTable()`. They must accept 
+a type argument and return a vector or tuple of the same length as the number of fields in the type:
+
+```julia
+somemethod(::Type{<:TypeToDocument}) = ("doc", "for", "each", "field")
+```
