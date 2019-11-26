@@ -44,8 +44,8 @@ Field Description Default      Bounds    Docs
     b     a Float     4.0 (2.0, 20.0) Field b
 ```
 
-You could additionally set the truncation length for each field, and use another
-table format. Table formats besides markdown should be fenced
+You could additionally set the truncation length for each field, or use another
+table format. Table formats besides markdown should be fenced:
 
 ```julia
 const FIELDDOCTABLE = FieldDocTable((:Description=description, :Default=default, :Bounds=bounds);
