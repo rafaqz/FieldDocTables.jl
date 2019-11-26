@@ -1,7 +1,6 @@
 # FieldDocTables
 
 [![Build Status](https://travis-ci.org/rafaqz/FieldDocTables.jl.svg?branch=master)](https://travis-ci.org/rafaqz/FieldDocTables.jl)
-[![Coverage Status](https://coveralls.io/repos/rafaqz/FieldDocTables.jl/badge.svg?branch=master&service=github)](https://coveralls.io/github/rafaqz/FieldDocTables.jl?branch=master)
 [![codecov.io](http://codecov.io/github/rafaqz/FieldDocTables.jl/coverage.svg?branch=master)](http://codecov.io/github/rafaqz/FieldDocTables.jl?branch=master)
 
 FieldDocTables uses [DocStringExtensions.jl](https://github.com/JuliaDocs/DocStringExtensions.jl)
@@ -46,16 +45,13 @@ Field Description Default      Bounds    Docs
 ```
 
 You could additionally set the truncation length for each field, and use another
-table format. Table formats besides markdown should be fenced.
-
-Note formats besides markdown will not translate to good html tables in browser documentation.
+table format. Table formats besides markdown should be fenced
 
 ```julia
-const FIELDDOCTABLE = FieldDocTable((:Description, :Default, :Limits),
-                                   (description, default, limits);
-                                   truncation=(100,40,70),
-                                   tableformat=PrettyTableFormat(unicode_rounded),
-                                   fenced=true)
-
-
+const FIELDDOCTABLE = FieldDocTable((:Description=description, :Default=default, :Bounds=bounds);
+                                    truncation=(100,40,70),
+                                    tableformat=PrettyTableFormat(unicode_rounded),
+                                    fenced=true)
 ```
+
+Note that formats besides markdown will not translate to good html tables in browser documentation.
