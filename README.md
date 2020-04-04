@@ -10,9 +10,7 @@ docs in a table in the docs for a type (defaults to unfenced markdown).
 But the main reason to use this package is to add additional columns to the
 field documentation, such as from [FieldMetadata.jl](https://github.com/rafaqz/FieldMetadata.jl).
 
-Additional column labels and methods can be passed to the field doc
-constructor `FieldDocTable()`. The method must accept a type and return a
-vector or tuple of the same length as the number of fields in the type.
+
 
 ```julia
 using FieldDocTables, FieldMetadata
@@ -44,17 +42,21 @@ Field Description Default      Bounds    Docs
     b     a Float     4.0 (2.0, 20.0) Field b
 ```
 
-You could additionally set the truncation length for each field, and use another
-table format. Table formats besides markdown should be fenced.
-
-Note formats besides markdown will not translate to good html tables in browser documentation.
+You could additionally set the truncation length for each field, or use another
+table format. Table formats besides markdown should be fenced:
 
 ```julia
-const FIELDDOCTABLE = FieldDocTable((:Description, :Default, :Limits),
-                                   (description, default, limits);
-                                   truncation=(100,40,70),
-                                   tableformat=PrettyTableFormat(unicode_rounded),
-                                   fenced=true)
+const FIELDDOCTABLE = FieldDocTable((:Description=description, :Default=default, :Bounds=bounds);
+                                    truncation=(100,40,70),
+                                    tableformat=PrettyTableFormat(unicode_rounded),
+                                    fenced=true)
+```
 
+Note that formats besides markdown will not translate to good html tables in browser documentation.
 
+Custom functions can also be passed to the field doc constructor `FieldDocTable()`. They must accept 
+a type argument and return a vector or tuple of the same length as the number of fields in the type:
+
+```julia
+somemethod(::Type{<:TypeToDocument}) = ("doc", "for", "each", "field")
 ```
