@@ -55,7 +55,7 @@ function format(doctable::FieldDocTable, buf, doc)
 
         println(buf)
         doctable.fenced && println(buf, "```")
-        pretty_table(buf, data, colnames, doctable.tableformat)
+        pretty_table(buf, data, colnames; tf=doctable.tableformat)
         doctable.fenced && println(buf, "```")
         println(buf)
     end
