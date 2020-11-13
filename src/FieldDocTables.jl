@@ -12,14 +12,15 @@ struct FieldDocTable{L,T,TR,F} <: Abbreviation
     tableformat::F
     fenced::Bool
 end
-
-FieldDocTable(labels::L, functions::T; truncation=((100 for f in functions)...,), 
-              tableformat=PrettyTableFormat(markdown), fenced=false) where {L,T} =
-    FieldDocTable{L,T,typeof(truncation), typeof(tableformat)
-                 }(labels, functions, truncation, tableformat, fenced)
-
+function FieldDocTable(
+   labels::L, functions::T; 
+   truncation=((100 for f in functions)...,), tf=tf_markdown, fenced=false
+) where {L,T}
+    FieldDocTable{L,T,typeof(truncation), typeof(tableformat)}(
+        labels, functions, truncation, tableformat, fenced
+    )
+end
 FieldDocTable(nt::NamedTuple; kwargs...) = FieldDocTable(keys(nt), (nt...,); kwargs...)
-
 
 function format(doctable::FieldDocTable, buf, doc)
     local docs = get(doc.data, :fields, Dict())
@@ -65,7 +66,7 @@ safestring(::Nothing, n) = "nothing"
 safestring(s, n) = truncate_utf8(string(s), n)
 
 # Is there simpler way to do this?
-truncate_utf8(s, n) = begin
+function truncate_utf8(s, n)
     eo = lastindex(s)
     neo = 0
     for i = 1:n
